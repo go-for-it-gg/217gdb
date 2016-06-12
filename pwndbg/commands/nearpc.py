@@ -76,7 +76,7 @@ def nearpc(pc=None, lines=None, to_string=False, emulate=False):
     addresses = ['%#x' % i.address for i in instructions]
 
     # Format the symbol name for each instruction
-    symbols = ['<%s> ' % sym if sym else '' for sym in symbols]
+    symbols = [str(sym) if sym else '' for sym in symbols]
 
     # Pad out all of the symbols and addresses
     if pwndbg.config.left_pad_disasm:
@@ -87,8 +87,7 @@ def nearpc(pc=None, lines=None, to_string=False, emulate=False):
 
     # Print out each instruction
     for address_str, s, i in zip(addresses, symbols, instructions):
-        asm    = pwndbg.disasm.color.instruction(i)
-        prefix = ' =>' if i.address == pc else '   '
+        asm = pwndbg.disasm.color.instruction(i)
 
         pre = pwndbg.ida.Anterior(i.address)
         if pre:
@@ -97,11 +96,14 @@ def nearpc(pc=None, lines=None, to_string=False, emulate=False):
         # for line in pc_to_linenos[i.address]:
         #     result.append('%s %s' % (line, lineno_to_src[line].strip()))
 
-        line   = ' '.join((prefix, address_str, s, asm))
-
-        # Highlight the current line if the config is enabled
+        prefix = ' '.join((address_str, s))
         if pwndbg.config.highlight_pc and i.address == pc:
-            line = pwndbg.color.highlight(line)
+            prefix = pwndbg.color.green(prefix)
+            prefix = pwndbg.color.bold(prefix)
+        else:
+            prefix = pwndbg.color.gray(prefix)
+
+        line   = ' '.join((prefix, asm))
 
         # If there was a branch before this instruction which was not
         # contiguous, put in some ellipses.
