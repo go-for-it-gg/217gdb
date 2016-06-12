@@ -16,6 +16,7 @@ capstone.CS_GRP_JUMP
 
 def instruction(ins):
     asm = u'%-06s %s' % (ins.mnemonic, ins.op_str)
+    _highlighted, asm = pwndbg.color.syntax_highlight(asm, '.asm')
     branch = set(ins.groups) & capstone_branch_groups
 
     # tl;dr is a branch?
