@@ -10,6 +10,7 @@ import traceback
 
 import gdb
 import pwndbg.arch
+import pwndbg.color
 import pwndbg.compat
 import pwndbg.typeinfo
 
@@ -189,6 +190,17 @@ class Page(object):
                         'w' if flags & 2 else '-',
                         'x' if flags & 1 else '-',
                         'p'])
+
+    def color_str(self):
+        width = 2 + 2*pwndbg.typeinfo.ptrsize
+        fmt_string = "%#{}x %#{}x %s %8x %-6x %s"
+        fmt_string = fmt_string.format(width, width)
+        return fmt_string % (self.vaddr,
+                             self.vaddr+self.memsz,
+                             pwndbg.color.get(self.vaddr, text=self.permstr),
+                             self.memsz,
+                             self.offset,
+                             self.objfile or '')
     def __str__(self):
         width = 2 + 2*pwndbg.typeinfo.ptrsize
         fmt_string = "%#{}x %#{}x %s %8x %-6x %s"

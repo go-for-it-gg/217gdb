@@ -38,4 +38,5 @@ def vmmap(map=None):
         if int_map and int_map not in page:
             continue
 
-        print(pwndbg.color.get(page.vaddr, text=str(page)))
+        #print(pwndbg.color.get(page.vaddr, text=str(page)))
+        print(page.color_str())
