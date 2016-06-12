@@ -21,6 +21,9 @@ import pwndbg.symbol
 import pwndbg.ui
 import pwndbg.vmmap
 
+def clear_screen():
+    # ANSI: move the cursor to top-left corner and clear the screen
+    return '\x1b[H\x1b[J'
 
 # @pwndbg.events.stop
 @pwndbg.commands.Command
@@ -47,6 +50,7 @@ def context(*args):
     if 'b' in args: result.extend(context_backtrace())
     result.extend(context_signal())
 
+    sys.stdout.write(clear_screen())
     for line in result:
         sys.stdout.write(line + '\n')
     sys.stdout.flush()
