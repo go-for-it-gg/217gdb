@@ -134,7 +134,7 @@ Unicorn emulation of code near the current instruction
 ''')
 
 def context_code():
-    banner = [pwndbg.color.blue(pwndbg.ui.banner("code"))]
+    banner = [pwndbg.color.blue(pwndbg.ui.banner("Assembly (code)"))]
     emulate = bool(pwndbg.config.emulate)
     result = pwndbg.commands.nearpc.nearpc(to_string=True, emulate=emulate)
 
@@ -177,7 +177,7 @@ def context_source():
                     source_lines[i] = pwndbg.color.highlight(source_lines[i])
                     break
 
-        banner = [pwndbg.color.blue(pwndbg.ui.banner("code"))]
+        banner = [pwndbg.color.blue(pwndbg.ui.banner("Source (code)"))]
         banner.extend(source_lines)
         return banner
     except:
