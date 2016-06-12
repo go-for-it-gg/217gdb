@@ -126,3 +126,21 @@ def strip(x):
 
 def terminateWith(x, color):
     return re.sub('\x1b\\[0m', NORMAL + color, x)
+
+syntax_highlight_style = pwndbg.config.Parameter('syntax-highlight-style', 'monokai', 'Source code / assembly syntax highlight stylename of pygments module')
+def syntax_highlight(source, filename):
+    try:
+        import pygments.lexers
+        import pygments.formatters
+        formatter_class = pygments.formatters.Terminal256Formatter
+        formatter = formatter_class(style=str(syntax_highlight_style))
+        lexer = pygments.lexers.get_lexer_for_filename(filename)
+        source = pygments.highlight(source, lexer, formatter)
+        highlighted = True
+    except ImportError:
+        # Pygments not available
+        highlighted = False
+    except pygments.util.ClassNotFound:
+        # no lexer for this file or invalid style
+        highlighted = False
+    return highlighted, source.rstrip('\n')
