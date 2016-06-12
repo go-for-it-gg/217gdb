@@ -12,16 +12,34 @@ import sys
 import termios
 
 import pwndbg.arch
+import pwndbg.color
 
+def get_term_size():
+    try:
+        height, width = struct.unpack('hh', fcntl.ioctl(sys.stdin.fileno(), termios.TIOCGWINSZ, '1234'))
+    except:
+        height = 60
+        width = 80
+    return (height, width)
 
 def banner(title):
-    title = title.upper()
-    try:
-        _height, width = struct.unpack('hh', fcntl.ioctl(sys.stdin.fileno(), termios.TIOCGWINSZ, '1234'))
-    except:
-        width = 80
-    width -= 2
-    return ("[{:-^%ss}]" % width).format(title)
+    title = title.capitalize()
+    _height, width = get_term_size()
+
+    skip = 3
+    fill_char = u'─'
+    margin = 1
+
+    before = fill_char * skip
+    before = pwndbg.color.bold(pwndbg.color.cyan(before))
+
+    middle = pwndbg.color.bold(pwndbg.color.yellow(title))
+
+    after_length = width - len(title) - skip - 2 * margin
+    after = fill_char * after_length
+    after = pwndbg.color.bold(pwndbg.color.cyan(after))
+
+    return ''.join([before, ' ' * margin, middle, ' ' * margin, after])
 
 def addrsz(address):
     address = int(address) & pwndbg.arch.ptrmask
