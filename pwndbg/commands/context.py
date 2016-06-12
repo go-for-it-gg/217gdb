@@ -33,10 +33,10 @@ def context(*args):
     """
     Print out the current register, instruction, and stack context.
 
-    Accepts subcommands 'reg', 'code', 'stack', 'backtrace', and 'args'.
+    Accepts subcommands 'reg', 'code', 'stack', 'backtrace'.
     """
     if len(args) == 0:
-        args = ['reg','code','stack','backtrace','args']
+        args = ['reg','code','stack','backtrace']
 
     args = [a[0] for a in args]
 
@@ -46,7 +46,6 @@ def context(*args):
     if 'r' in args: result.extend(context_regs())
     if 'c' in args: result.extend(context_code())
     if 'c' in args: result.extend(context_source())
-    if 'a' in args: result.extend(context_args())
     if 's' in args: result.extend(context_stack())
     if 'b' in args: result.extend(context_backtrace())
     result.extend(context_signal())
@@ -278,23 +277,6 @@ def context_backtrace(frame_count=10, with_banner=True):
 
         frame = frame.older()
         i    += 1
-    return result
-
-def context_args():
-    result = []
-
-    ##################################################
-    # DISABLED FOR NOW, I LIKE INLINE DISPLAY BETTER
-    ##################################################
-    # # For call instructions, attempt to resolve the target and
-    # # determine the number of arguments.
-    # for arg, value in pwndbg.arguments.arguments(pwndbg.disasm.one()):
-    #     code   = False if arg.type == 'char' else True
-    #     pretty = pwndbg.chain.format(value, code=code)
-    #     result.append('%-10s %s' % (arg.name+':', pretty))
-    # if not result:
-    #         return []
-    # result.insert(0, pwndbg.color.blue(pwndbg.ui.banner("arguments")))
     return result
 
 last_signal = []
