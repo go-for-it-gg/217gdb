@@ -22,7 +22,7 @@ import pwndbg.commands.cpsr
 import pwndbg.commands.dt
 import pwndbg.commands.dumpargs
 import pwndbg.commands.elf
-import pwndbg.commands.gdbinit
+#import pwndbg.commands.gdbinit
 import pwndbg.commands.heap
 import pwndbg.commands.hexdump
 import pwndbg.commands.ida
@@ -39,7 +39,7 @@ import pwndbg.commands.shell
 import pwndbg.commands.start
 import pwndbg.commands.telescope
 import pwndbg.commands.vmmap
-import pwndbg.commands.windbg
+#import pwndbg.commands.windbg
 import pwndbg.commands.xor
 import pwndbg.constants
 import pwndbg.disasm
