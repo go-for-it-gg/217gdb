@@ -15,6 +15,7 @@ import pwndbg.commands.telescope
 import pwndbg.config
 import pwndbg.disasm
 import pwndbg.events
+import pwndbg.file
 import pwndbg.ida
 import pwndbg.regs
 import pwndbg.symbol
@@ -146,6 +147,25 @@ def context_code():
     return banner + result
 
 pwndbg.config.Parameter('highlight-source', True, 'whether to highlight the closest source line')
+source_code_length = pwndbg.config.Parameter('context-source-code-length',
+                                             9,
+                                             'number of lines of source code to printed by the context command')
+@pwndbg.memoize.reset_on_start
+def get_hightlight_source(filename):
+    #TODO(cebrusfs): update if mtime is different, and color update
+    source = pwndbg.file.get(filename)
+    highlighted, source = pwndbg.color.syntax_highlight(source, filename)
+    if highlighted:
+        source_lines = source.splitlines()
+        return tuple(source_lines)
+    else:
+        return tuple()
+
+def get_current_hightlight_source():
+    sal = gdb.selected_frame().find_sal()
+    filename = sal.symtab.fullname()
+    codes = get_hightlight_source(filename)
+    return codes
 
 def context_source():
     try:
