@@ -25,11 +25,11 @@ GREY = GRAY    = "\x1b[90m"
 BOLD           = "\x1b[1m"
 UNDERLINE      = "\x1b[4m"
 
-pwndbg.config.Parameter('color-stack', 'yellow', 'color for stack memory')
-pwndbg.config.Parameter('color-heap', 'blue', 'color for heap memory')
+pwndbg.config.Parameter('color-stack', 'cyan', 'color for stack memory')
+pwndbg.config.Parameter('color-heap', 'purple', 'color for heap memory')
 pwndbg.config.Parameter('color-code', 'red', 'color for executable memory')
-pwndbg.config.Parameter('color-data', 'purple', 'color for all other writable memory')
-pwndbg.config.Parameter('color-rodata', 'normal', 'color for all read only memory')
+pwndbg.config.Parameter('color-data', 'bold,blue', 'color for all other writable memory')
+pwndbg.config.Parameter('color-rodata', 'green', 'color for all read only memory')
 pwndbg.config.Parameter('color-rwx', 'underline', 'color added to all RWX memory')
 pwndbg.config.Parameter('color-highlight', 'green,bold', 'color added to highlights like source/pc')
 
