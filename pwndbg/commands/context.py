@@ -92,10 +92,12 @@ def get_regs(*regs):
         value = pwndbg.regs[reg]
 
         # Make the register stand out
-        regname = pwndbg.color.bold(reg.ljust(4).upper())
+        regname = reg.ljust(3).upper()
 
-        # Show a dot next to the register if it changed
-        m = ' ' if reg not in changed else '*'
+        # bold the register name if it changed
+        if reg in changed:
+            regname = pwndbg.color.green(regname)
+            regname = pwndbg.color.bold(regname)
 
         if reg not in pwndbg.regs.flags:
             desc = pwndbg.chain.format(value)
@@ -125,7 +127,7 @@ def get_regs(*regs):
             if names:
                 desc = '%s [ %s ]' % (desc, ' '.join(names))
 
-        result.append("%s%s %s" % (m, regname, desc))
+        result.append("%s %s" % (regname, desc))
 
     return result
 
