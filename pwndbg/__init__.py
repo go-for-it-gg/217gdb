@@ -120,7 +120,6 @@ set step-mode on
 set print pretty on
 set width 0
 set print elements 15
-set input-radix 16
 handle SIGALRM nostop print nopass
 handle SIGBUS  stop   print nopass
 handle SIGPIPE nostop print nopass
